@@ -28,7 +28,6 @@ public class EnemyBehaviour : MonoBehaviour
 
     private void Start()
     {
-        //StartCoroutine(defend());
         StartCoroutine(enemyAction(1));
     }
 
@@ -140,5 +139,6 @@ public class EnemyBehaviour : MonoBehaviour
         }
         feedback.enabled = false;
         anim.SetTrigger("Die");
+        enabled = false;
     }
 }
