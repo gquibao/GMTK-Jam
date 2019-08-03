@@ -13,7 +13,7 @@ public class WeaponCollision : MonoBehaviour
             if (other.tag == "Enemy" && !EnemyBehaviour.instance.defense)
             {
                 UIManager.instance.resultadoPlayer.text = "Player Score";
-                PlayerActions.instance.hit = true;
+                EnemyBehaviour.instance.die();
             }
 
             if (other.tag == "Enemy" && EnemyBehaviour.instance.defense)
@@ -27,6 +27,7 @@ public class WeaponCollision : MonoBehaviour
             if (other.tag == "Player" && !PlayerActions.instance.defense)
             {
                 UIManager.instance.resultadoEnemy.text = "Enemy Score";
+                PlayerActions.instance.die();
             }
 
             else if(other.tag == "Player" && PlayerActions.instance.defense)

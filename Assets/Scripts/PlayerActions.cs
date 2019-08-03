@@ -44,4 +44,12 @@ public class PlayerActions : MonoBehaviour
         anim.SetBool("Defend", defense);
     }
 
+    public void die()
+    {
+        foreach(Collider collider in GetComponentsInChildren<Collider>())
+        {
+            collider.enabled = false;
+        }
+        anim.SetTrigger("Die");
+    }
 }

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class EnemyBehaviour : MonoBehaviour
 {
@@ -8,10 +9,11 @@ public class EnemyBehaviour : MonoBehaviour
 
     public Animator anim;
 
-    [Header("Atributos")]
-    public int offensive = 0;
-    public int defensive = 0;
-    public int responseTime = 0;
+    public Image feedback;
+    
+    private int offensive = 5;
+    private int defensive = 5;
+    private int responseTime = 1;
 
     public bool defense = false;
 
@@ -22,50 +24,90 @@ public class EnemyBehaviour : MonoBehaviour
 
     private void Start()
     {
-        StartCoroutine(defend());
+        //StartCoroutine(defend());
         StartCoroutine(enemyAction(0));
     }
 
-    
-
-    IEnumerator enemyAction(int repeatTime)
+    IEnumerator enemyAction(int time)
     {
-        yield return new WaitForSeconds(repeatTime);
-        int chance = random();
-        if(chance < 20)
+        feedback.color = Color.white;
+        yield return new WaitForSeconds(time);
+
+        if(random() > 5)
         {
-            anim.SetTrigger("Melee Right Attack 01");
-            if(chance < 5)
+            if(offensive > defensive)
             {
-                repeatTime = 0;
+                if (random() > 100-(offensive*10))
+                    StartCoroutine(attack());
+
+                else
+                    StartCoroutine(defend());
+            }
+
+            else if(offensive < defensive)
+            {
+                if (random() > 100 - (defensive * 10))
+                    StartCoroutine(defend());
+
+                else
+                    StartCoroutine(attack());
             }
 
             else
             {
-                repeatTime = 1;
+                if(random() > 50)
+                {
+                    StartCoroutine(attack());
+                }
+
+                else
+                {
+                    StartCoroutine(defend());
+                }
             }
         }
 
-        else if(chance >= 20 && chance < 55)
+        else
         {
-            StartCoroutine(defend());
-            repeatTime = 1;
+            StartCoroutine(enemyAction(responseTime));
         }
-
-        StartCoroutine(enemyAction(repeatTime));
     }
 
     IEnumerator defend()
     {
-        defense = true;
+        feedback.color = Color.blue;
+        yield return new WaitForSeconds(0.5f);
+         defense = true;
         anim.SetBool("Defend", defense);
         yield return new WaitForSeconds(2);
         defense = false;
         anim.SetBool("Defend", defense);
+        offensive++;
+        defensive--;
+        StartCoroutine(enemyAction(responseTime));
+    }
+
+    IEnumerator attack()
+    {
+        feedback.color = Color.red;
+        yield return new WaitForSeconds(0.5f);
+        anim.SetTrigger("Melee Right Attack 01");
+        offensive--;
+        defensive++;
+        StartCoroutine(enemyAction(responseTime));
     }
 
     int random()
     {
         return Random.Range(0, 101);
+    }
+
+    public void die()
+    {
+        foreach (Collider collider in GetComponentsInChildren<Collider>())
+        {
+            collider.enabled = false;
+        }
+        anim.SetTrigger("Die");
     }
 }
