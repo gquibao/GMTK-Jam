@@ -12,13 +12,13 @@ public class WeaponCollision : MonoBehaviour
         {
             if (other.tag == "Enemy" && !EnemyBehaviour.instance.defense)
             {
-                Debug.Log("Player Score");
+                UIManager.instance.resultadoPlayer.text = "Player Score";
                 PlayerActions.instance.hit = true;
             }
 
             if (other.tag == "Enemy" && EnemyBehaviour.instance.defense)
             {
-                Debug.Log("Enemy Defended");
+                UIManager.instance.resultadoPlayer.text = "Enemy Defended";
             }
         }
 
@@ -26,12 +26,12 @@ public class WeaponCollision : MonoBehaviour
         {
             if (other.tag == "Player" && !PlayerActions.instance.defense)
             {
-                Debug.Log("Enemy Score");
+                UIManager.instance.resultadoEnemy.text = "Enemy Score";
             }
 
             else if(other.tag == "Player" && PlayerActions.instance.defense)
             {
-                Debug.Log("Player Defended");
+                UIManager.instance.resultadoEnemy.text = "Player Defended";
             }
         }
     }

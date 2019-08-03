@@ -7,6 +7,12 @@ public class EnemyBehaviour : MonoBehaviour
     public static EnemyBehaviour instance;
 
     public Animator anim;
+
+    [Header("Atributos")]
+    public int offensive = 0;
+    public int defensive = 0;
+    public int responseTime = 0;
+
     public bool defense = false;
 
     private void Awake()
@@ -20,11 +26,13 @@ public class EnemyBehaviour : MonoBehaviour
         StartCoroutine(enemyAction(0));
     }
 
+    
+
     IEnumerator enemyAction(int repeatTime)
     {
         yield return new WaitForSeconds(repeatTime);
         int chance = random();
-        if(chance < 15)
+        if(chance < 20)
         {
             anim.SetTrigger("Melee Right Attack 01");
             if(chance < 5)
@@ -38,7 +46,7 @@ public class EnemyBehaviour : MonoBehaviour
             }
         }
 
-        else if(chance >= 15 && chance < 30)
+        else if(chance >= 20 && chance < 55)
         {
             StartCoroutine(defend());
             repeatTime = 1;
