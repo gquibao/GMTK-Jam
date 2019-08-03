@@ -6,7 +6,7 @@ public class PlayerActions : MonoBehaviour
 {
     public static PlayerActions instance;
 
-    bool attack = false;
+    public bool attacking = false;
     public bool defense = false;
     public bool hit = false;
     public Animator anim;
@@ -28,19 +28,22 @@ public class PlayerActions : MonoBehaviour
         {
             defense = false;
             anim.SetBool("Defend", defense);
+            EnemyBehaviour.instance.isPlayerBlocking = false;
         }
-        else if(!defense && !attack)
+        else if(!defense && !attacking)
         {
-            attack = true;
+            attacking = true;
             anim.SetTrigger("Melee Right Attack 01");
+            EnemyBehaviour.instance.isIncomingBlow = true;
         }
-        attack = false;
+        attacking = false;
     }
 
     IEnumerator timer()
     {
         yield return new WaitForSeconds(0.2f);
         defense = true;
+        EnemyBehaviour.instance.isPlayerBlocking = true;
         anim.SetBool("Defend", defense);
     }
 

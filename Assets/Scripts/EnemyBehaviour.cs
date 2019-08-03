@@ -10,12 +10,16 @@ public class EnemyBehaviour : MonoBehaviour
     public Animator anim;
 
     public Image feedback;
-    
+
     private int offensive = 5;
     private int defensive = 5;
-    private int responseTime = 1;
+    private float responseTime = 0.5f;
+    private float fatigue = 0;
 
     public bool defense = false;
+    public bool isResting = false;
+    public bool isIncomingBlow = false;
+    public bool isPlayerBlocking = false;
 
     private void Awake()
     {
@@ -25,44 +29,66 @@ public class EnemyBehaviour : MonoBehaviour
     private void Start()
     {
         //StartCoroutine(defend());
-        StartCoroutine(enemyAction(0));
+        StartCoroutine(enemyAction(1));
     }
 
-    IEnumerator enemyAction(int time)
+    private void Update()
+    {
+        if (isIncomingBlow && !isResting)
+        {
+            StopAllCoroutines();
+            StartCoroutine(defend(0f));
+            isIncomingBlow = false;
+        }
+    }
+
+    IEnumerator enemyAction(float time)
     {
         feedback.color = Color.white;
         yield return new WaitForSeconds(time);
 
-        if(random() > 5)
+        if (random() > 5)
         {
-            if(offensive > defensive)
+            if (!isPlayerBlocking)
             {
-                if (random() > 100-(offensive*10))
+                if (random() < 70)
+                {
+                    StopAllCoroutines();
                     StartCoroutine(attack());
-
-                else
-                    StartCoroutine(defend());
-            }
-
-            else if(offensive < defensive)
-            {
-                if (random() > 100 - (defensive * 10))
-                    StartCoroutine(defend());
-
-                else
-                    StartCoroutine(attack());
+                }
             }
 
             else
             {
-                if(random() > 50)
+                if (offensive > defensive)
                 {
-                    StartCoroutine(attack());
+                    if (random() > 100 - (offensive * 10))
+                        StartCoroutine(attack());
+
+                    else
+                        StartCoroutine(defend(0.5f));
+                }
+
+                else if (offensive < defensive)
+                {
+                    if (random() > 100 - (defensive * 10))
+                        StartCoroutine(defend(0.5f));
+
+                    else
+                        StartCoroutine(attack());
                 }
 
                 else
                 {
-                    StartCoroutine(defend());
+                    if (random() > 50)
+                    {
+                        StartCoroutine(attack());
+                    }
+
+                    else
+                    {
+                        StartCoroutine(defend(0.5f));
+                    }
                 }
             }
         }
@@ -73,24 +99,28 @@ public class EnemyBehaviour : MonoBehaviour
         }
     }
 
-    IEnumerator defend()
+    IEnumerator defend(float feedbackTime)
     {
         feedback.color = Color.blue;
-        yield return new WaitForSeconds(0.5f);
-         defense = true;
+        yield return new WaitForSeconds(feedbackTime);
+        defense = true;
         anim.SetBool("Defend", defense);
         yield return new WaitForSeconds(2);
         defense = false;
         anim.SetBool("Defend", defense);
         offensive++;
         defensive--;
+        isResting = true;
         StartCoroutine(enemyAction(responseTime));
+        yield return new WaitForSeconds(0.5f);
+        isResting = false;
+
     }
 
     IEnumerator attack()
     {
         feedback.color = Color.red;
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.2f);
         anim.SetTrigger("Melee Right Attack 01");
         offensive--;
         defensive++;
@@ -108,6 +138,7 @@ public class EnemyBehaviour : MonoBehaviour
         {
             collider.enabled = false;
         }
+        feedback.enabled = false;
         anim.SetTrigger("Die");
     }
 }
