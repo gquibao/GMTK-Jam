@@ -11,9 +11,13 @@ public class EnemyBehaviour : MonoBehaviour
 
     public Image feedback;
 
+    public Sprite attackFeedback;
+    public Sprite defenseFeedback;
+
     private int offensive = 5;
     private int defensive = 5;
     private float responseTime = 0.5f;
+    [SerializeField]
     private float fatigue = 0;
 
     public bool defense = false;
@@ -43,10 +47,10 @@ public class EnemyBehaviour : MonoBehaviour
 
     IEnumerator enemyAction(float time)
     {
-        feedback.color = Color.white;
+        feedback.enabled = false;
         yield return new WaitForSeconds(time);
 
-        if (random() > 5)
+        if (random() > 5 && fatigue < 5)
         {
             if (!isPlayerBlocking)
             {
@@ -94,14 +98,24 @@ public class EnemyBehaviour : MonoBehaviour
 
         else
         {
-            StartCoroutine(enemyAction(responseTime));
+            fatigue = fatigue - 5;
+            if (fatigue < 0)
+                fatigue = 0;
+
+            if (fatigue > 10)
+                StartCoroutine(enemyAction(responseTime + 1));
+
+            else
+                StartCoroutine(enemyAction(responseTime));
         }
     }
 
     IEnumerator defend(float feedbackTime)
     {
-        feedback.color = Color.blue;
+        feedback.enabled = true;
+        feedback.sprite= defenseFeedback;
         yield return new WaitForSeconds(feedbackTime);
+        feedback.enabled = false;
         defense = true;
         anim.SetBool("Defend", defense);
         yield return new WaitForSeconds(2);
@@ -113,16 +127,18 @@ public class EnemyBehaviour : MonoBehaviour
         StartCoroutine(enemyAction(responseTime));
         yield return new WaitForSeconds(0.5f);
         isResting = false;
-
     }
 
     IEnumerator attack()
     {
-        feedback.color = Color.red;
+        feedback.enabled = true;
+        feedback.sprite = attackFeedback;
         yield return new WaitForSeconds(0.2f);
+        feedback.enabled = false;
         anim.SetTrigger("Melee Right Attack 01");
         offensive--;
         defensive++;
+        fatigue++;
         StartCoroutine(enemyAction(responseTime));
     }
 

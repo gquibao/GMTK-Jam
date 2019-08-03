@@ -54,6 +54,6 @@ public class PlayerActions : MonoBehaviour
             collider.enabled = false;
         }
         anim.SetTrigger("Die");
-        enabled = false;
+        EnemyBehaviour.instance.enabled = false;
     }
 }
