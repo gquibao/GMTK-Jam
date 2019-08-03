@@ -7,7 +7,7 @@ public class PlayerActions : MonoBehaviour
     public static PlayerActions instance;
 
     bool attack = false;
-    bool defense = false;
+    public bool defense = false;
     public bool hit = false;
     public Animator anim;
 

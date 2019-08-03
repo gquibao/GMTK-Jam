@@ -10,18 +10,28 @@ public class WeaponCollision : MonoBehaviour
     {
         if (isPlayer)
         {
-            if (other.tag == "Enemy")
+            if (other.tag == "Enemy" && !EnemyBehaviour.instance.defense)
             {
                 Debug.Log("Player Score");
                 PlayerActions.instance.hit = true;
+            }
+
+            if (other.tag == "Enemy" && EnemyBehaviour.instance.defense)
+            {
+                Debug.Log("Enemy Defended");
             }
         }
 
         else if (!isPlayer)
         {
-            if (other.tag == "Player")
+            if (other.tag == "Player" && !PlayerActions.instance.defense)
             {
                 Debug.Log("Enemy Score");
+            }
+
+            else if(other.tag == "Player" && PlayerActions.instance.defense)
+            {
+                Debug.Log("Player Defended");
             }
         }
     }
