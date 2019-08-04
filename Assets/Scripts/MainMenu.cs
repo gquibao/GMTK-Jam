@@ -58,7 +58,7 @@ public class MainMenu : MonoBehaviour
 
     public void btSamurai()
     {
-        StartCoroutine(LoadNewScene("MainMenu"));
+        StartCoroutine(LoadNewScene("LevelSamurai"));
     }
 
     public void btCangaceiro()
