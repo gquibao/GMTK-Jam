@@ -1,9 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using TMPro;
 
 public class MainMenu : MonoBehaviour
 {
@@ -58,12 +58,12 @@ public class MainMenu : MonoBehaviour
 
     public void btSamurai()
     {
-        StartCoroutine(LoadNewScene("LevelSamurai"));
+        StartCoroutine(LoadNewScene("Samurai_Arena"));
     }
 
     public void btCangaceiro()
     {
-        StartCoroutine(LoadNewScene("LevelCangaceiro"));
+        StartCoroutine(LoadNewScene("Cangaceiro_Arena"));
     }
 
     IEnumerator LoadNewScene(string sceneName)
@@ -78,12 +78,11 @@ public class MainMenu : MonoBehaviour
             for (int i = 0; i < 3; i++)
             {
                 txtLoading.text += ".";
-                Debug.Log(operation.progress);
                 yield return new WaitForSeconds(0.5f);
             }
         }
 
-        for(int i = 5; i >= 0; i--)
+        for (int i = 5; i >= 0; i--)
         {
             yield return new WaitForSeconds(1);
             txtLoading.text = i.ToString();

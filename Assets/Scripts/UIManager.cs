@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
@@ -20,5 +21,24 @@ public class UIManager : MonoBehaviour
     private void Start()
     {
         gameOver.gameObject.SetActive(false);
+    }
+
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.R))
+        {
+            returnToMenu();
+        }
+    }
+
+    public void returnToMenu()
+    {
+        StartCoroutine(loadMenu());
+    }
+
+    public IEnumerator loadMenu()
+    {
+        yield return new WaitForSeconds(2);
+        SceneManager.LoadScene("MainMenu");
     }
 }

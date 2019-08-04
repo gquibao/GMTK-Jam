@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class EnemyBehaviour : MonoBehaviour
 {
     public static EnemyBehaviour instance;
+    public Collider sword;
 
     public Animator anim;
 
@@ -14,6 +15,7 @@ public class EnemyBehaviour : MonoBehaviour
     public Sprite attackFeedback;
     public Sprite defenseFeedback;
 
+    public float timerSword;
     private int offensive = 5;
     private int defensive = 5;
     private float responseTime = 0.5f;
@@ -32,6 +34,7 @@ public class EnemyBehaviour : MonoBehaviour
 
     private void Start()
     {
+        sword.enabled = false;
         StartCoroutine(enemyAction(1));
     }
 
@@ -134,12 +137,16 @@ public class EnemyBehaviour : MonoBehaviour
         feedback.enabled = true;
         feedback.sprite = attackFeedback;
         yield return new WaitForSeconds(0.2f);
+        AudioManager.instance.eMove.Play();
         feedback.enabled = false;
-        anim.SetTrigger("Melee Right Attack 01");
+        anim.SetTrigger("Attack");
+        sword.enabled = true;
         offensive--;
         defensive++;
         fatigue++;
         StartCoroutine(enemyAction(responseTime));
+        yield return new WaitForSeconds(timerSword);
+        sword.enabled = false;
     }
 
     int random()
@@ -149,6 +156,9 @@ public class EnemyBehaviour : MonoBehaviour
 
     public void die()
     {
+        StopAllCoroutines();
+        PlayerActions.instance.gameObject.GetComponent<Collider>().enabled = false;
+        sword.enabled = false;
         foreach (Collider collider in GetComponentsInChildren<Collider>())
         {
             collider.enabled = false;
@@ -160,10 +170,11 @@ public class EnemyBehaviour : MonoBehaviour
     }
 
 
-IEnumerator endGame()
-{
-    yield return new WaitForSeconds(2);
-    UIManager.instance.gameOver.gameObject.SetActive(true);
-    UIManager.instance.gameOver.sprite = UIManager.instance.victory;
-}
+    IEnumerator endGame()
+    {
+        yield return new WaitForSeconds(2);
+        UIManager.instance.gameOver.gameObject.SetActive(true);
+        UIManager.instance.gameOver.sprite = UIManager.instance.victory;
+        UIManager.instance.returnToMenu();
+    }
 }

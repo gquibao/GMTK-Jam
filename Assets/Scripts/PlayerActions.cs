@@ -10,10 +10,16 @@ public class PlayerActions : MonoBehaviour
     public bool defense = false;
     public bool hit = false;
     public Animator anim;
+    public Collider sword;
 
     private void Awake()
     {
         instance = this;
+    }
+
+    private void Start()
+    {
+        sword.enabled = false;
     }
 
     public void OnClickEnter()
@@ -32,11 +38,20 @@ public class PlayerActions : MonoBehaviour
         }
         else if(!defense && !attacking)
         {
-            attacking = true;
-            anim.SetTrigger("Melee Right Attack 01");
-            EnemyBehaviour.instance.isIncomingBlow = true;
+            StartCoroutine(attack());
         }
         attacking = false;
+    }
+
+    IEnumerator attack()
+    {
+        AudioManager.instance.pMove.Play();
+        sword.enabled = true;
+        attacking = true;
+        anim.SetTrigger("Attack");
+        EnemyBehaviour.instance.isIncomingBlow = true;
+        yield return new WaitForSeconds(1f);
+        sword.enabled = false;
     }
 
     IEnumerator timer()
@@ -49,7 +64,8 @@ public class PlayerActions : MonoBehaviour
 
     public void die()
     {
-        foreach(Collider collider in GetComponentsInChildren<Collider>())
+        EnemyBehaviour.instance.gameObject.GetComponent<Collider>().enabled = false;
+        foreach (Collider collider in GetComponentsInChildren<Collider>())
         {
             collider.enabled = false;
         }
@@ -62,5 +78,6 @@ public class PlayerActions : MonoBehaviour
         yield return new WaitForSeconds(2);
         UIManager.instance.gameOver.gameObject.SetActive(true);
         UIManager.instance.gameOver.sprite = UIManager.instance.defeat;
+        UIManager.instance.returnToMenu();
     }
 }
