@@ -98,7 +98,7 @@ public class EnemyBehaviour : MonoBehaviour
 
         else
         {
-            fatigue -= 5;
+            fatigue = fatigue - 5;
             if (fatigue < 0)
                 fatigue = 0;
 
@@ -156,14 +156,5 @@ public class EnemyBehaviour : MonoBehaviour
         feedback.enabled = false;
         anim.SetTrigger("Die");
         enabled = false;
-        StartCoroutine(endGame());
     }
-
-
-IEnumerator endGame()
-{
-    yield return new WaitForSeconds(2);
-    UIManager.instance.gameOver.gameObject.SetActive(true);
-    UIManager.instance.gameOver.sprite = UIManager.instance.victory;
-}
 }

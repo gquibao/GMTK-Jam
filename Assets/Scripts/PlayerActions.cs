@@ -54,13 +54,6 @@ public class PlayerActions : MonoBehaviour
             collider.enabled = false;
         }
         anim.SetTrigger("Die");
-        StartCoroutine(endGame());
-    }
-
-    IEnumerator endGame()
-    {
-        yield return new WaitForSeconds(2);
-        UIManager.instance.gameOver.gameObject.SetActive(true);
-        UIManager.instance.gameOver.sprite = UIManager.instance.defeat;
+        EnemyBehaviour.instance.enabled = false;
     }
 }
