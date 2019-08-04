@@ -14,8 +14,7 @@ public class EnemyBehaviour : MonoBehaviour
 
     public Sprite attackFeedback;
     public Sprite defenseFeedback;
-
-    public float timerSword;
+    
     private int offensive = 5;
     private int defensive = 5;
     private float responseTime = 0.5f;
@@ -137,15 +136,22 @@ public class EnemyBehaviour : MonoBehaviour
         feedback.enabled = true;
         feedback.sprite = attackFeedback;
         yield return new WaitForSeconds(0.2f);
-        AudioManager.instance.eMove.Play();
         feedback.enabled = false;
         anim.SetTrigger("Attack");
-        sword.enabled = true;
         offensive--;
         defensive++;
         fatigue++;
         StartCoroutine(enemyAction(responseTime));
-        yield return new WaitForSeconds(timerSword);
+    }
+
+    public void attackSFX()
+    {
+        sword.enabled = true;
+        AudioManager.instance.eMove.Play();
+    }
+
+    public void onSwordExit()
+    {
         sword.enabled = false;
     }
 
@@ -166,13 +172,16 @@ public class EnemyBehaviour : MonoBehaviour
         feedback.enabled = false;
         anim.SetTrigger("Die");
         enabled = false;
+    }
+
+    public void diedAnim()
+    {
         StartCoroutine(endGame());
     }
 
-
     IEnumerator endGame()
     {
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(1);
         UIManager.instance.gameOver.gameObject.SetActive(true);
         UIManager.instance.gameOver.sprite = UIManager.instance.victory;
         UIManager.instance.returnToMenu();

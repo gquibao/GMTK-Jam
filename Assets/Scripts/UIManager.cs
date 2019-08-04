@@ -38,7 +38,7 @@ public class UIManager : MonoBehaviour
 
     public IEnumerator loadMenu()
     {
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(3);
         SceneManager.LoadScene("MainMenu");
     }
 }

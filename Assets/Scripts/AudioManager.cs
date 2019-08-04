@@ -19,7 +19,7 @@ public class AudioManager : MonoBehaviour
 
     void Start()
     {
-        //soundtrack.volume = PlayerPrefs.GetFloat("Volume");
+        soundtrack.volume = PlayerPrefs.GetFloat("Volume");
         pMove.volume = PlayerPrefs.GetFloat("Volume");
         pClash.volume = PlayerPrefs.GetFloat("Volume");
         eMove.volume = PlayerPrefs.GetFloat("Volume");

@@ -38,19 +38,26 @@ public class PlayerActions : MonoBehaviour
         }
         else if(!defense && !attacking)
         {
-            StartCoroutine(attack());
+            attack();
         }
         attacking = false;
     }
 
-    IEnumerator attack()
+    public void attack()
     {
-        AudioManager.instance.pMove.Play();
-        sword.enabled = true;
         attacking = true;
         anim.SetTrigger("Attack");
         EnemyBehaviour.instance.isIncomingBlow = true;
-        yield return new WaitForSeconds(1f);
+    }
+
+    public void attackSFX()
+    {
+        sword.enabled = true;
+        AudioManager.instance.pMove.Play();
+    }
+
+    public void onSwordExit()
+    {
         sword.enabled = false;
     }
 
@@ -73,9 +80,14 @@ public class PlayerActions : MonoBehaviour
         StartCoroutine(endGame());
     }
 
+    public void diedAnim()
+    {
+        StartCoroutine(endGame());
+    }
+
     IEnumerator endGame()
     {
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(1);
         UIManager.instance.gameOver.gameObject.SetActive(true);
         UIManager.instance.gameOver.sprite = UIManager.instance.defeat;
         UIManager.instance.returnToMenu();
