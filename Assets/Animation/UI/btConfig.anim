@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: btCredits
+  m_Name: btConfig
   serializedVersion: 6
   m_Legacy: 0
   m_Compressed: 0
@@ -70,12 +70,21 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_IsActive
-    path: BlackFilter/CreditsPanel
+    path: BlackFilter/ConfigPanel
     classID: 1
     script: {fileID: 0}
   - curve:
       serializedVersion: 2
       m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 136
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
       - serializedVersion: 3
         time: 0.5
         value: 0
@@ -98,7 +107,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_Alpha
-    path: BlackFilter/CreditsPanel
+    path: BlackFilter/ConfigPanel
     classID: 225
     script: {fileID: 0}
   m_PPtrCurves: []
@@ -117,14 +126,14 @@ AnimationClip:
       customType: 0
       isPPtrCurve: 0
     - serializedVersion: 2
-      path: 4024242324
+      path: 3481977222
       attribute: 2086281974
       script: {fileID: 0}
       typeID: 1
       customType: 0
       isPPtrCurve: 0
     - serializedVersion: 2
-      path: 4024242324
+      path: 3481977222
       attribute: 1574349066
       script: {fileID: 0}
       typeID: 225
@@ -205,12 +214,21 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_IsActive
-    path: BlackFilter/CreditsPanel
+    path: BlackFilter/ConfigPanel
     classID: 1
     script: {fileID: 0}
   - curve:
       serializedVersion: 2
       m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 136
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
       - serializedVersion: 3
         time: 0.5
         value: 0
@@ -233,7 +251,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_Alpha
-    path: BlackFilter/CreditsPanel
+    path: BlackFilter/ConfigPanel
     classID: 225
     script: {fileID: 0}
   m_EulerEditorCurves: []
