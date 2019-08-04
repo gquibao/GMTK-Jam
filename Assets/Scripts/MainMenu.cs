@@ -83,11 +83,6 @@ public class MainMenu : MonoBehaviour
             }
         }
 
-        if (operation.progress >= 0.9f)
-        {
-            txtLoading.text = "Done";
-        }
-
         for(int i = 5; i >= 0; i--)
         {
             yield return new WaitForSeconds(1);
